@@ -35,12 +35,6 @@ page {
   align-items: center;
   border-left: 1rpx solid #000;
 }
-.goods_info_title{
-  color:red;
-  font-size:32rpx;
-  font-weight:600;
-  padding:20rpx;
-}
 .btm_tool {
   position: fixed;
   left: 0;
@@ -55,16 +49,23 @@ page {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  font-size:24rpx;
+  align-content: center;
   position: relative;
+}
+.btm_tool .tool_item button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
 }
 .btm_tool .btn_car {
   flex: 2;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-content: center;
   background-color: #ffa500;
   color: #fff;
   font-size: 30rpx;
@@ -75,18 +76,9 @@ page {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-content: center;
   background-color: #eb4450;
   color: #fff;
   font-size: 30rpx;
   font-weight: 600;
 }
-.btm_tool .tool_item button {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  opacity: 0;
-}
-

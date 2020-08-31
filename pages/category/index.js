@@ -44,12 +44,9 @@ Page({
     }
   },
   //获取分类数据
-  getCates(){
-    request({
-      url:"/categories"
-    })
-    .then(res=>{
-      this.Cates=res.data.message
+  async getCates(){
+    const res=await request({url:"/categories"})
+    this.Cates=res.data.message
       //把数据存储到本地存储中
       wx.setStorageSync("cates", {time:Date.now(),data:this.Cates});
       let leftMenuList=this.Cates.map(v=>v.cat_name);
@@ -58,7 +55,6 @@ Page({
           leftMenuList,
           rightContent
       })
-    })
   },
 
   //左侧菜单点击事件
