@@ -1,1 +1,5 @@
 /* pages/auth/index.wxss */
+button{
+    heigth:70%;
+    margin-top:40rpx;
+}

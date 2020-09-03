@@ -49,6 +49,7 @@ Page({
     if(index===-1){
       //不存在
       this.Goodinfo.num=1;
+      this.Goodinfo.checked=true
       cart.push(this.Goodinfo)
     }else{
       //商品已经存在
