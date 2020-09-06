@@ -44,10 +44,23 @@ Page({
     }
   },
   //获取分类数据
-  async getCates(){
-    const res=await request({url:"/categories"})
-    this.Cates=res.data.message
-      //把数据存储到本地存储中
+  // const db=wx.cloud.database();
+  // const images=db.collection('swiperdata');
+  // images.get().then(res=>{
+  //   this.setData({
+  //     swiperList:res.data[0].message,
+  //     cateList:res.data[1].message,
+  //     floorList:res.data[2].message
+  //   })
+  // })
+  // .catch(err=>{
+  //   console.log(err)
+  // });
+   getCates(){
+    const db=wx.cloud.database();
+    const images=db.collection('swiperdata');
+    images.get().then(res=>{
+      this.Cates=res.data[3].message
       wx.setStorageSync("cates", {time:Date.now(),data:this.Cates});
       let leftMenuList=this.Cates.map(v=>v.cat_name);
       let rightContent=this.Cates[0].children;
@@ -55,6 +68,19 @@ Page({
           leftMenuList,
           rightContent
       })
+    })
+    .catch(err=>{
+      console.log(err)
+    });
+    // this.Cates=res.data.message
+      //把数据存储到本地存储中
+      // wx.setStorageSync("cates", {time:Date.now(),data:this.Cates});
+      // let leftMenuList=this.Cates.map(v=>v.cat_name);
+      // let rightContent=this.Cates[0].children;
+      // this.setData({
+      //     leftMenuList,
+      //     rightContent
+      // })
   },
 
   //左侧菜单点击事件
@@ -67,52 +93,4 @@ Page({
         scollTop:0,
       })
   },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

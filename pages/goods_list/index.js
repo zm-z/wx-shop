@@ -44,16 +44,22 @@ Page({
   },
 
   //获取商品数据
-  async getGoodsList(){
-    const res=await request({url:"/goods/search",data:this.QueryParams}) 
+   getGoodsList(){
+    const db=wx.cloud.database();
+    const images=db.collection('swiperdata');
+    images.get({data:this.QueryParams}).then(res=>{
     //总条数
-    const total=res.data.message.total
+    const total=res.data[4].message.total
     //总页数
     this.totalPages=Math.ceil(total/this.QueryParams.pagesize)
     this.setData({
-      goodList:[...this.data.goodList,...res.data.message.goods]
+      goodList:[...this.data.goodList,...res.data[4].message.goods]
     })
     wx.stopPullDownRefresh()
+    })
+    .catch(err=>{
+      console.log(err)
+    }); 
   },
   //标题点击事件
   subnavTap(e){

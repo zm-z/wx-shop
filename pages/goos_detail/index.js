@@ -7,6 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    goodsAll:[],
     goodsObj:{}
   },
   //商品对象
@@ -21,8 +22,29 @@ Page({
   },
 
   //获取商品详情
-  async getGoodsDetail(goods_id){
+    async getGoodsDetail(goods_id){
+      console.log(goods_id);
+      
+    // const db=wx.cloud.database();
+    // const images=db.collection('swiperdata');
+    // images.get().then(res=>{
+    //   //接收所有商品信息
+    //   this.goodsAll=res.data[4].message.goods
+    //   //筛选出所要的商品信息
+    //   this.goodsAll.forEach(v=>v.goods_id=goods_id)
+    //   console.log(this.goodsAll);
+      
+    //   this.setData({
+    //     goodsObj:this.goodsAll
+    //   })
+    // })
+    // .catch(err=>{
+    //   console.log(err)
+    // });
+    
     const res=await request({url:'/goods/detail',data:{goods_id}})
+    console.log(res.data);
+    
     this.Goodinfo=res.data.message
     this.setData({
       goodsObj:res.data.message
