@@ -8,7 +8,9 @@ Page({
    */
   data: {
     goodsAll:[],
-    goodsObj:{}
+    goodsObj:{},
+    //商品是否被收藏
+    isCollect:false,
   },
   //商品对象
   Goodinfo:{},
@@ -16,14 +18,18 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onShow: function () {
+    let pages= getCurrentPages();
+    let currentPage=pages[pages.length-1];
+    let options=currentPage.options;
     const {goods_id}=options
     this.getGoodsDetail(goods_id)
+    
+
   },
 
   //获取商品详情
     async getGoodsDetail(goods_id){
-      console.log(goods_id);
       
     // const db=wx.cloud.database();
     // const images=db.collection('swiperdata');
@@ -43,11 +49,15 @@ Page({
     // });
     
     const res=await request({url:'/goods/detail',data:{goods_id}})
-    console.log(res.data);
     
     this.Goodinfo=res.data.message
+    //1获取缓存中商品收藏的数组
+    let collect=wx.getStorageSync("collect")||[]
+    //判断当前是否被收藏
+    let isCollect=collect.some(v=>v.goods_id===this.Goodinfo.goods_id)
     this.setData({
-      goodsObj:res.data.message
+      goodsObj:res.data.message,
+      isCollect
     })
   },
   //点击轮播图，放大预览
@@ -86,5 +96,34 @@ Page({
       //防止用户手抖，1.5s后才能点击
       mask:true
     });
+  },
+  //收藏
+  handleCollect(){
+    let isCollect=false
+    //获取缓存在的收藏对戏数组
+    let collect=wx.getStorageSync("collect")||[]
+    //判断商品是否存在
+    let index=collect.findIndex(v=>v.goods_id===this.Goodinfo.goods_id)
+    if(index!=-1){
+      //表示已经收藏
+      collect.splice(index,1)
+      isCollect=false
+      wx.showToast({
+        title: '取消收藏',
+        mask:true
+      });
+    }else{
+      collect.push(this.Goodinfo)
+      isCollect=true
+      wx.showToast({
+        title: '添加至收藏',
+        mask:true
+      });
+    }
+    //把数组存入放缓存中
+    wx.setStorageSync("collect",collect)
+    this.setData({
+      isCollect
+    })
   }
 })
